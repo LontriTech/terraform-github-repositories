@@ -1,0 +1,24 @@
+name: Checkov Validation
+
+on:
+  push:
+    branches: [ 'main' ]
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Checkov GitHub Action
+        uses: bridgecrewio/checkov-action@v12.1699.0
+        with:
+          directory: .
+          quiet: true
+          soft_fail: false
+          framework: terraform
+          output_format: github_failed_only
+          download_external_modules: true
+          log_level: WARNING
+          container_user: 1000

@@ -1,0 +1,17 @@
+# Terraform-Docs is awesome: https://terraform-docs.io/
+# Use Terraform-Docs to keep your module's docs updated and auto-generated
+
+formatter: "markdown"
+
+output:
+  file: "README.md"
+  mode: replace
+
+settings:
+  color: false
+  description: true
+  hide-empty: true
+
+sort:
+  enabled: true
+  by: required

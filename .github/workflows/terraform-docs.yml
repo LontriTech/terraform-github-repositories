@@ -1,0 +1,34 @@
+
+name: Terraform Docs Update Auto Run
+
+on:
+  push:
+    branches: [ 'main' ]
+
+jobs:
+  readme-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install TFSwitch
+        run: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | sudo bash
+
+      - name: Run TFSwitch
+        run: tfswitch
+
+      - name: Terraform Init
+        run:  terraform init -backend=false
+
+      - name: Terraform Format
+        run: terraform fmt -recursive
+
+      - name: terraform-docs-gh-actions
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          config-file: .terraform-docs.yml
+          working-dir: .
+          git-push: true
+          git-commit-message: "Automated: Update README"
+          git-push-sign-off: true
