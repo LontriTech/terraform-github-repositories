@@ -1,3 +1,7 @@
-module "template" {
+module "repositories" {
   source = "../.."
+
+  repositories = {
+    teste = {}
+  }
 }

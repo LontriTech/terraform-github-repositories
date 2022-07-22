@@ -1,79 +1,59 @@
 output "full_names" {
   description = "Full names of the created repositories."
 
-  value = [
-    for repository in github_repository.this : repository.full_name
-  ]
+  value = module.repositories.full_names
 }
 
 output "html_urls" {
   description = "URLs to the created repositories on the web."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.html_url
-  }
+  value = module.repositories.html_urls
 }
 
 output "ssh_clone_urls" {
   description = "URLs to clone the created repositories using SSH."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.ssh_clone_url
-  }
+  value = module.repositories.ssh_clone_urls
 }
 
 output "http_clone_urls" {
   description = "URLs to clone the created repositories using HTTPS."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.http_clone_url
-  }
+  value = module.repositories.http_clone_urls
 }
 
 output "git_clone_urls" {
   description = "URLs to clone the created repositories anonymously via the git protocol."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.git_clone_url
-  }
+  value = module.repositories.git_clone_urls
 }
 
 output "svn_urls" {
   description = "URLs to clone the created repositories via GitHub's Subversion protocol emulation."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.svn_url
-  }
+  value = module.repositories.svn_urls
 }
 
 output "node_ids" {
   description = "GraphQL global node ids for use with v4 API."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.node_id
-  }
+  value = module.repositories.node_ids
 }
 
 output "repo_ids" {
   description = "GitHub ID for the repositories."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.repo_id
-  }
+  value = module.repositories.repo_ids
 }
 
 output "pages" {
   description = "The block consisting of the repositories' GitHub Pages configuration."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.pages
-  }
+  value = module.repositories.pages
 }
 
 output "branches" {
   description = "The list of this repositories' branches."
 
-  value = {
-    for key, repository in github_repository.this : key => repository.branches
-  }
+  value = module.repositories.branches
 }
