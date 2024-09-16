@@ -25,7 +25,7 @@ jobs:
         run: terraform fmt -recursive
 
       - name: terraform-docs-gh-actions
-        uses: terraform-docs/gh-actions@v1.0.0
+        uses: terraform-docs/gh-actions@v1.2.2
         with:
           config-file: .terraform-docs.yml
           working-dir: .
