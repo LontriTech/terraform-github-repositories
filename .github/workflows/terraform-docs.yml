@@ -4,6 +4,7 @@ name: Terraform Docs Update Auto Run
 on:
   push:
     branches: [ 'main' ]
+  pull_request:
 
 jobs:
   readme-update:
@@ -16,7 +17,9 @@ jobs:
         run: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | sudo bash
 
       - name: Run TFSwitch
-        run: tfswitch
+        run: |
+          unlink "/usr/local/bin/terraform"
+          tfswitch
 
       - name: Terraform Init
         run:  terraform init -backend=false
