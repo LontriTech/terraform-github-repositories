@@ -22,7 +22,7 @@ locals {
     ignore_vulnerability_alerts_during_read = false
     pages                                   = {}
     template = {
-      owner      = "fr-platform"
+      owner      = "lontritech"
       repository = "terraform-template"
     }
   }
