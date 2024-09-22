@@ -17,8 +17,3 @@ terraform {
     }
   }
 }
-
-provider "github" {
-  token = ""
-  owner = "fr-platform"
-}
