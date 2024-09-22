@@ -22,11 +22,18 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -recursive
 
+      - name: Create Git Branch
+        run: |
+          git switch --create auto/update
+          git add -A
+          git commit -m "AUTO format files"
+          git push --set-upstream origin auto/update
+
       - name: terraform-docs-gh-actions
         uses: terraform-docs/gh-actions@v1.3.0
         with:
           config-file: .terraform-docs.yml
           working-dir: .
           git-push: true
-          git-commit-message: "Automated: Update README"
+          git-commit-message: "AUTO update README"
           git-push-sign-off: true
