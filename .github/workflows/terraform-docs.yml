@@ -18,7 +18,7 @@ jobs:
 
       - name: Run TFSwitch
         run: |
-          unlink "/usr/local/bin/terraform"
+          sudo unlink "/usr/local/bin/terraform"
           tfswitch
 
       - name: Terraform Init
