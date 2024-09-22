@@ -13,14 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install TFSwitch
-        run: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | sudo bash
-
-      - name: Run TFSwitch
-        run: |
-          sudo unlink "/usr/local/bin/terraform"
-          sudo tfswitch
-
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3          
+          
       - name: Terraform Init
         run:  terraform init -backend=false
 
