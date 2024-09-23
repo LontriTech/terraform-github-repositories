@@ -24,7 +24,7 @@ jobs:
 
       - name: Create Git Branch
         run: |
-          git config user.name "${{env.GITHUB_WORKFLOW}}"
+          git config user.name "${{github.workflow}}"
           git config user.email "github-actions-bot@users.noreply.github.com"
           git switch --create auto/update
           git add -A
