@@ -24,17 +24,11 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -recursive
 
-      - name: Create Git Branch
-        run: |
-          git config user.name "${{github.workflow}}"
-          git config user.email "github-actions-bot@users.noreply.github.com"
-          git commit -am "AUTO format files"    
-
       - name: terraform-docs-gh-actions
         uses: terraform-docs/gh-actions@v1.3.0
         with:
           config-file: .terraform-docs.yml
           working-dir: .
           git-push: true
-          git-commit-message: "AUTO update README"
+          git-commit-message: "[AUTO] UPDATE README && FIX formatting && UPDATE HCL Lock"
           git-push-sign-off: true
