@@ -3,9 +3,8 @@ name: Terraform Docs Update Auto Run
 
 on:
   push:
-    branches: [ 'main' ]
-  pull_request:
-
+    branches-ignore: [ 'main' ]
+    
 permissions: 
   contents: write
   
@@ -29,10 +28,7 @@ jobs:
         run: |
           git config user.name "${{github.workflow}}"
           git config user.email "github-actions-bot@users.noreply.github.com"
-          git switch --create auto/update
-          git add -A
-          git commit -m "AUTO format files"
-          git push --set-upstream origin auto/update          
+          git commit -am "AUTO format files"    
 
       - name: terraform-docs-gh-actions
         uses: terraform-docs/gh-actions@v1.3.0
