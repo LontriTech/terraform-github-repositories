@@ -8,6 +8,7 @@ permissions:
   
 jobs:
   terraform-init:
+    name: Terraform Init
     runs-on: ubuntu-latest
     
     steps:       
@@ -28,7 +29,6 @@ jobs:
           key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
-    
 
   terraform-docs-deps-update:
     if: ${{ github.event_name == 'push' && github.ref_name != github.event.repository.default_branch }}
@@ -44,9 +44,9 @@ jobs:
           fetch-depth: 1
 
       - name: Terraform Format
-        run: terraform fmt -recursive
+        run: terraform fmt -recursive -diff
 
-      - name: terraform-docs-gh-actions
+      - name: Run Terraform-Docs && Push Changes
         uses: terraform-docs/gh-actions@v1.3.0
         with:
           config-file: .terraform-docs.yml
@@ -54,3 +54,34 @@ jobs:
           git-push: true
           git-commit-message: "[AUTO] UPDATE README && FIX formatting && UPDATE HCL Lock"
           git-push-sign-off: true
+          fail-on-diff: false
+          
+  terraform-docs-deps-check:
+    if: ${{ needs.terraform-docs-deps-update.result == 'skipped' }}
+  
+    name: Check Terraform Docs and Dependencies
+    runs-on: ubuntu-latest
+    needs: ['terraform-init', 'terraform-docs-deps-update']
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check Terraform Formatting
+        run: terraform fmt -recursive -diff -check -write=false
+        continue-on-error: true
+
+      - name: Run Terraform Validate
+        run: terraform validate
+        continue-on-error: true
+        
+      - name: Check Docs
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          config-file: .terraform-docs.yml
+          working-dir: .
+          git-push: false
+          fail-on-diff: true
+        continue-on-error: true
