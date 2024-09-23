@@ -1,10 +1,14 @@
-
+---
 name: Terraform Docs Update Auto Run
 
 on:
   push:
     branches: [ 'main' ]
+  pull_request:
 
+permissions: 
+  contents: write
+  
 jobs:
   readme-update:
     runs-on: ubuntu-latest
@@ -12,17 +16,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install TFSwitch
-        run: curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | sudo bash
-
-      - name: Run TFSwitch
-        run: tfswitch
-
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3          
+          
       - name: Terraform Init
         run:  terraform init -backend=false
 
       - name: Terraform Format
         run: terraform fmt -recursive
+
+      - name: Create Git Branch
+        run: |
+          git config user.name "${{github.workflow}}"
+          git config user.email "github-actions-bot@users.noreply.github.com"
+          git switch --create auto/update
+          git add -A
+          git commit -m "AUTO format files"
+          git push --set-upstream origin auto/update          
 
       - name: terraform-docs-gh-actions
         uses: terraform-docs/gh-actions@v1.3.0
@@ -30,5 +40,5 @@ jobs:
           config-file: .terraform-docs.yml
           working-dir: .
           git-push: true
-          git-commit-message: "Automated: Update README"
+          git-commit-message: "AUTO update README"
           git-push-sign-off: true
