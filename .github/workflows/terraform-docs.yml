@@ -13,14 +13,18 @@ jobs:
     
     steps:       
       - name: Checkout Code
+        id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Terraform Init
+        id: terraform_init
+        shell: bash
         run:  terraform init -backend=false -input=false -upgrade
         
       - name: Cache Terraform Modules
+        id: cache_modules
         uses: actions/cache@v4.0.2
         with:
           path: |
@@ -39,14 +43,18 @@ jobs:
     
     steps:
       - name: Checkout Code
+        id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Terraform Format
+        id: update_format
+        shell: bash
         run: terraform fmt -recursive -diff
 
       - name: Run Terraform-Docs && Push Changes
+        id: update_docs_push_changes
         uses: terraform-docs/gh-actions@v1.3.0
         with:
           config-file: .terraform-docs.yml
@@ -57,7 +65,7 @@ jobs:
           fail-on-diff: false
           
   terraform-docs-deps-check:
-    if: ${{ needs.terraform-docs-deps-update.result == 'skipped' }}
+    if: ${{ always() || needs.terraform-docs-deps-update.result == 'skipped' }}
   
     name: Check Terraform Docs and Dependencies
     runs-on: ubuntu-latest
@@ -65,23 +73,42 @@ jobs:
     
     steps:
       - name: Checkout Code
+        id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Check Terraform Formatting
+        id: check_format
         run: terraform fmt -recursive -diff -check -write=false
         continue-on-error: true
 
       - name: Run Terraform Validate
+        id: check_validate
         run: terraform validate
         continue-on-error: true
         
       - name: Check Docs
+        id: check_docs
         uses: terraform-docs/gh-actions@v1.3.0
         with:
           config-file: .terraform-docs.yml
           working-dir: .
           git-push: false
           fail-on-diff: true
+        continue-on-error: true
+        
+      - name: Check if Lockfile Changed
+        id: check_lockfile
+        shell: bash
+        run: |
+          if git diff --exit-code .terraform.lock.hcl >/dev/null ; then
+            echo "upgrade_used=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in the lockfile."
+            exit 0
+          else
+            echo "upgrade_used=true" >> $GITHUB_OUTPUT
+            echo "Providers were upgraded."
+            exit 1
+          fi
         continue-on-error: true
