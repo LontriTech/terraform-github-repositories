@@ -113,6 +113,7 @@ jobs:
         with:
           path: |
             .terraform
+            .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-terraform-${{ github.sha }}
@@ -174,6 +175,7 @@ jobs:
         uses: actions/cache@v4.0.2
         with:
           path: |
+            .terraform
             .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
