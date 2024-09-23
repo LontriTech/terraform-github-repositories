@@ -32,7 +32,7 @@ jobs:
             .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-terraform-
+            ${{ runner.os }}-terraform-${{ github.sha }}
 
   terraform-docs-deps-update:
     if: ${{ github.event_name == 'push' && github.ref_name != github.event.repository.default_branch }}
@@ -57,7 +57,7 @@ jobs:
             .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-terraform-
+            ${{ runner.os }}-terraform-${{ github.sha }}
 
       - name: Terraform Format
         id: update_format
@@ -115,7 +115,7 @@ jobs:
             .terraform
           key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-terraform-
+            ${{ runner.os }}-terraform-${{ github.sha }}
 
       - name: Run Terraform Validate
         id: check_validate
@@ -177,7 +177,7 @@ jobs:
             .terraform.lock.hcl
           key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-terraform-
+            ${{ runner.os }}-terraform-${{ github.sha }}
         
       - name: Check if Lockfile Changed
         id: check_lockfile
