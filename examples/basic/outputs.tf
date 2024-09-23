@@ -7,7 +7,7 @@ output "full_names" {
 output "html_urls" {
   description = "URLs to the created repositories on the web."
 
-  value = module.repositories.html_urls
+  value = module.repositories.wewewewe
 }
 
 output "ssh_clone_urls" {
