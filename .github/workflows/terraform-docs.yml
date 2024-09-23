@@ -30,7 +30,7 @@ jobs:
           path: |
             .terraform
             .terraform.lock.hcl
-          key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.lock.hcl') }}
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-terraform-
 
@@ -47,6 +47,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          
+      - name: Cache Terraform Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform
+            .terraform.lock.hcl
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
 
       - name: Terraform Format
         id: update_format
@@ -95,6 +106,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          
+      - name: Cache Terraform Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
 
       - name: Run Terraform Validate
         id: check_validate
@@ -136,17 +157,42 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      - name: Hash Original Lockfile
+        id: hash_original_lockfile
+        shell: bash
+        run: |
+          if [ -f .terraform.lock.hcl ]; then
+            LOCKFILE_HASH=$(sha256sum .terraform.lock.hcl | awk '{ print $1 }')
+            echo "original_lockfile_hash=$LOCKFILE_HASH" >> $GITHUB_OUTPUT
+          else
+            echo "original_lockfile_hash=" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Cache Terraform Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform.lock.hcl
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
         
       - name: Check if Lockfile Changed
         id: check_lockfile
         shell: bash
         run: |
-          if git diff --exit-code .terraform.lock.hcl >/dev/null ; then
-            echo "upgrade_used=false" >> $GITHUB_OUTPUT
-            echo "No changes detected in the lockfile."
+          if [ -f .terraform.lock.hcl ]; then
+            NEW_LOCKFILE_HASH=$(sha256sum .terraform.lock.hcl | awk '{ print $1 }')
+          else
+            echo 'Lockfile has changed'
+            exit 1
+          fi
+          if [ "${{ steps.hash_original_lockfile.outputs.original_lockfile_hash }}" == $NEW_LOCKFILE_HASH ]; then
+            echo 'Lockfile has not changed'
             exit 0
           else
-            echo "upgrade_used=true" >> $GITHUB_OUTPUT
-            echo "Providers were upgraded."
+            echo 'Lockfile has changed'
             exit 1
           fi
