@@ -1,5 +1,5 @@
 ---
-name: Auto Update Docs, Formatting and Dependencies
+name: Check/Update Docs, Formatting and Dependencies
 
 on: ['push']
 
@@ -32,8 +32,10 @@ jobs:
 
   terraform-docs-deps-update:
     if: ${{ github.event_name == 'push' && github.ref_name != github.event.repository.default_branch }}
-    
+
+    name: Update Terraform Docs and Dependencies
     runs-on: ubuntu-latest
+    needs: terraform-init
     
     steps:
       - name: Checkout Code
