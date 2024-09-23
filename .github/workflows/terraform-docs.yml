@@ -64,10 +64,10 @@ jobs:
           git-push-sign-off: true
           fail-on-diff: false
           
-  terraform-docs-deps-check:
-    if: ${{ always() || needs.terraform-docs-deps-update.result == 'skipped' }}
+  terraform-format-check:
+    if: ${{ always() }}
   
-    name: Check Terraform Docs and Dependencies
+    name: Terraform Format
     runs-on: ubuntu-latest
     needs: ['terraform-init', 'terraform-docs-deps-update']
     
@@ -81,12 +81,38 @@ jobs:
       - name: Check Terraform Formatting
         id: check_format
         run: terraform fmt -recursive -diff -check -write=false
-        continue-on-error: true
+        
+  terraform-validate-check:
+    if: ${{ always() }}
+  
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+    needs: ['terraform-init', 'terraform-docs-deps-update']
+    
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Run Terraform Validate
         id: check_validate
         run: terraform validate
-        continue-on-error: true
+        
+  terraform-docs-check:
+    if: ${{ always() }}
+  
+    name: Docs Check
+    runs-on: ubuntu-latest
+    needs: ['terraform-init', 'terraform-docs-deps-update']
+    
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
         
       - name: Check Docs
         id: check_docs
@@ -96,7 +122,20 @@ jobs:
           working-dir: .
           git-push: false
           fail-on-diff: true
-        continue-on-error: true
+        
+  terraform-lockfile-check:
+    if: ${{ always() }}
+  
+    name: Lockfile Check
+    runs-on: ubuntu-latest
+    needs: ['terraform-init', 'terraform-docs-deps-update']
+    
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
         
       - name: Check if Lockfile Changed
         id: check_lockfile
@@ -111,4 +150,3 @@ jobs:
             echo "Providers were upgraded."
             exit 1
           fi
-        continue-on-error: true
