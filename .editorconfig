@@ -1,13 +1,17 @@
-# EditorConfig is awesome: http://EditorConfig.org
-# Use editorconfig to maintain consistent coding styles
+# More on EditorConfig: https://editorconfig.org/
+# VS Code Extension: https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
 
 root = true
 
 [*]
-charset = utf-8
-end_of_line = lf
-indent_size = 2
 indent_style = space
-insert_final_newline = true
-max_line_length = 80
+indent_size = 4
+end_of_line = lf
+charset = utf-8
 trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.sh]
+indent_style = space
+indent_size = 2
+executable = true
