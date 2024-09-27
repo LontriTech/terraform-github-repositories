@@ -76,6 +76,7 @@ jobs:
           output-format: ""
           output-method: ""
           output-file: ""
+          template: ""
           
   terraform-format-check:
     if: ${{ always() }}
@@ -142,10 +143,13 @@ jobs:
         id: check_docs
         uses: terraform-docs/gh-actions@v1.3.0
         with:
-          config-file: .terraform-docs.yml
-          working-dir: .
+          config-file: ".terraform-docs.yml"
           git-push: false
           fail-on-diff: true
+          output-format: ""
+          output-method: ""
+          output-file: ""
+          template: ""
         
   terraform-lockfile-check:
     if: ${{ always() && github.ref_name == github.event.repository.default_branch }}
