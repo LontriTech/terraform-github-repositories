@@ -1,7 +1,7 @@
 # Terraform-Docs is awesome: https://terraform-docs.io/
 # Use Terraform-Docs to keep your module's docs updated and auto-generated
 
-formatter: "markdown table"
+formatter: "markdown doc"
 
 version: ">= 0.19.0"
 
