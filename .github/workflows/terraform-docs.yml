@@ -73,6 +73,9 @@ jobs:
           git-commit-message: "[AUTO] UPDATE README && FIX formatting && UPDATE HCL Lock"
           git-push-sign-off: true
           fail-on-diff: false
+          output-format: ""
+          output-method: ""
+          output-file: ""
           
   terraform-format-check:
     if: ${{ always() }}
