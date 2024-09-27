@@ -68,8 +68,7 @@ jobs:
         id: update_docs_push_changes
         uses: terraform-docs/gh-actions@v1.3.0
         with:
-          config-file: .terraform-docs.yml
-          working-dir: .
+          config-file: ".terraform-docs.yml"
           git-push: true
           git-commit-message: "[AUTO] UPDATE README && FIX formatting && UPDATE HCL Lock"
           git-push-sign-off: true
