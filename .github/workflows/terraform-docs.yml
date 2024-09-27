@@ -75,7 +75,7 @@ jobs:
           fail-on-diff: false
           output-format: ""
           output-method: ""
-          output-file: ""
+          output-file: "README.md"
           template: ""
           
   terraform-format-check:
