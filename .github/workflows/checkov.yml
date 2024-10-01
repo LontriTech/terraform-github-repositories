@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Checkov GitHub Action
-        uses: bridgecrewio/checkov-action@v12.2873.0
+        uses: bridgecrewio/checkov-action@v12.2874.0
         with:
           directory: .
           quiet: true
