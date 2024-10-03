@@ -46,4 +46,7 @@ This is a Terraform module for deploying GitHub repositories.
 | <a name="output_repo_ids"></a> [repo\_ids](#output\_repo\_ids) | GitHub ID for the repositories. |
 | <a name="output_ssh_clone_urls"></a> [ssh\_clone\_urls](#output\_ssh\_clone\_urls) | URLs to clone the created repositories using SSH. |
 | <a name="output_svn_urls"></a> [svn\_urls](#output\_svn\_urls) | URLs to clone the created repositories via GitHub's Subversion protocol emulation. |
+
+---
+[GitHub](https://github.com/LontriTech)
 <!-- END_TF_DOCS -->
