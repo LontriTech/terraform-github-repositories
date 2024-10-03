@@ -1,0 +1,61 @@
+---
+name: Terraform Lockfile Check
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-lockfile-check:
+    if: ${{ always() && github.ref_name == github.event.repository.default_branch }}
+
+    name: Lockfile Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Hash Original Lockfile
+        id: hash_original_lockfile
+        shell: bash
+        run: |
+          if [ -f .terraform.lock.hcl ]; then
+            LOCKFILE_HASH=$(sha256sum .terraform.lock.hcl | awk '{ print $1 }')
+            echo "original_lockfile_hash=$LOCKFILE_HASH" >> $GITHUB_OUTPUT
+          else
+            echo "original_lockfile_hash=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Cache Terraform Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform
+            .terraform.lock.hcl
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-${{ github.sha }}
+
+      - name: Check if Lockfile Changed
+        id: check_lockfile
+        shell: bash
+        run: |
+          if [ -f .terraform.lock.hcl ]; then
+            NEW_LOCKFILE_HASH=$(sha256sum .terraform.lock.hcl | awk '{ print $1 }')
+          else
+            echo 'Lockfile has changed'
+            exit 1
+          fi
+          if [ "${{ steps.hash_original_lockfile.outputs.original_lockfile_hash }}" == $NEW_LOCKFILE_HASH ]; then
+            echo 'Lockfile has not changed'
+            exit 0
+          else
+            echo 'Lockfile has changed'
+            exit 1
+          fi

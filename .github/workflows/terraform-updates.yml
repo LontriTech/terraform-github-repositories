@@ -1,0 +1,15 @@
+---
+name: Terraform Update
+
+on: ['push', 'workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-init:
+    uses: ./.github/workflows/terraform-init.yml
+
+  terraform-docs-deps-update:
+    uses: ./.github/workflows/terraform-docs-deps-update.yml
+    needs: ['terraform-init']
