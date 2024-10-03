@@ -7,29 +7,31 @@ permissions:
   contents: write
 
 
-if: ${{ github.event_name == 'push' && github.ref_name == github.event.repository.default_branch }}
-
 jobs:
   terraform-init:
     uses: ./.github/workflows/terraform-init.yml
 
+  terraform-updates:
+    uses: ./.github/workflows/terraform-docs-deps-update.yml
+    needs: ['terraform-init']
+
   terraform-validate-check:
    uses: ./.github/workflows/terraform-validate-check.yml
-   needs: ['terraform-init']
+   needs: ['terraform-init', 'terraform-updates']
    if: ${{ Always() }}
 
   terraform-lockfile-check:
     uses: ./.github/workflows/terraform-lockfile-check.yml
-    needs: ['terraform-init']
+    needs: ['terraform-init', 'terraform-updates']
     if: ${{ Always() }}
 
   terraform-format-check:
     uses: ./.github/workflows/terraform-format-check.yml
-    needs: ['terraform-init']
+    needs: ['terraform-init', 'terraform-updates']
     if: ${{ Always() }}
 
   terraform-docs-check:
     uses: ./.github/workflows/terraform-docs-check.yml
-    needs: ['terraform-init']
+    needs: ['terraform-init', 'terraform-updates']
     if: ${{ Always() }}
 
