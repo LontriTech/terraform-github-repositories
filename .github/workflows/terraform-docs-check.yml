@@ -1,0 +1,33 @@
+---
+name: Terraform Docs Check
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-docs-check:
+    if: ${{ always() && github.ref_name == github.event.repository.default_branch }}
+
+    name: Docs Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check Docs
+        id: check_docs
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          config-file: ".terraform-docs.yml"
+          git-push: false
+          fail-on-diff: true
+          output-format: ""
+          output-method: ""
+          output-file: ""
+          template: ""

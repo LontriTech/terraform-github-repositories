@@ -1,0 +1,32 @@
+---
+name: Terraform Validade
+
+on: ['push', 'workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-init:
+    uses: ./.github/workflows/terraform-init.yml
+
+  terraform-validate-check:
+   uses: ./.github/workflows/terraform-validate-check.yml
+   needs: ['terraform-init']
+   if: ${{ Always() }}
+
+  terraform-lockfile-check:
+    uses: ./.github/workflows/terraform-lockfile-check.yml
+    needs: ['terraform-init']
+    if: ${{ Always() }}
+
+  terraform-format-check:
+    uses: ./.github/workflows/terraform-format-check.yml
+    needs: ['terraform-init']
+    if: ${{ Always() }}
+
+  terraform-docs-check:
+    uses: ./.github/workflows/terraform-docs-check.yml
+    needs: ['terraform-init']
+    if: ${{ Always() }}
+

@@ -1,0 +1,23 @@
+---
+name: Terraform Format Check
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-format-check:
+    name: Terraform Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check Terraform Formatting
+        id: check_format
+        run: terraform fmt -recursive -diff -check -write=false

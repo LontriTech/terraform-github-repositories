@@ -1,0 +1,35 @@
+---
+name: Terraform Init
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-init:
+    name: Terraform Init
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Terraform Init
+        id: terraform_init
+        shell: bash
+        run:  terraform init -backend=false -input=false -upgrade
+
+      - name: Cache Terraform Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform
+            .terraform.lock.hcl
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-${{ github.sha }}

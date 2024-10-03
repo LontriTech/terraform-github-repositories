@@ -1,0 +1,34 @@
+---
+name: Terraform Validate
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  terraform-validate-check:
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Cache Terraform Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform
+            .terraform.lock.hcl
+          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-${{ github.sha }}
+
+      - name: Run Terraform Validate
+        id: check_validate
+        run: terraform validate
