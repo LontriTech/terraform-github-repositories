@@ -74,7 +74,7 @@ jobs:
           git-push-sign-off: true
           fail-on-diff: false
           output-format: ""
-          output-method: ""
+          output-method: "replace"
           output-file: ""
           template: ""
           
