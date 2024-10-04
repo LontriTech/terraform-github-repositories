@@ -12,6 +12,7 @@ defaults:
 
 jobs:
   checkov-status:
+    name: Checkov Status
     runs-on: ubuntu-latest
 
     steps:
