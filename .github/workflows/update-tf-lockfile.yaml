@@ -1,0 +1,53 @@
+---
+name: Update TF Lockfile
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  update-tf-lockfile:
+    name: Update TF Lockfile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: TF Init
+        id: tf_init_upgrade_true
+        run:  terraform init -backend=false -input=false -upgrade
+
+      - name: Cache TF Modules
+        id: cache_modules
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            .terraform
+            .terraform.lock.hcl
+          key: ${{ runner.os }}-tf-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-tf-${{ github.sha }}
+
+      - name: Set up Git config
+        id: git_config
+        run: |
+          git config --global user.name "tf-lockfile[bot]"
+          git config --global user.email "tf-lockfile[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        id: git_commit_and_push
+        run: |
+          git add -A
+          git commit -m "[AUTO] Update TF Lockfile"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

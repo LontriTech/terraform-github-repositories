@@ -1,0 +1,24 @@
+---
+name: Run Checks
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  checkov:
+    uses: ./.github/workflows/check-checkov.yaml
+
+  format:
+    uses: ./.github/workflows/check-tf-format.yaml
+
+  lockfile:
+    uses: ./.github/workflows/check-tf-lockfile.yaml
+
+  readme:
+    uses: ./.github/workflows/check-tf-readme.yaml
+
+  validate:
+    uses: ./.github/workflows/check-tf-validate.yaml
+

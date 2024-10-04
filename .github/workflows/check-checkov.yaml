@@ -1,17 +1,28 @@
-name: Checkov Validation
+---
+name: Checkov Status
 
-on:
-  push:
-    branches: [ 'main' ]
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  validation:
+  checkov-status:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: Checkov GitHub Action
+      - name: Run Checkov
+        id: checkov
         uses: bridgecrewio/checkov-action@v12.2874.0
         with:
           directory: .

@@ -1,16 +1,18 @@
 ---
-name: Terraform Docs Check
+name: Check TF README
 
 on: ['workflow_call']
 
 permissions:
   contents: write
 
-jobs:
-  terraform-docs-check:
-    if: ${{ always() && github.ref_name == github.event.repository.default_branch }}
+defaults:
+  run:
+    shell: bash
 
-    name: Docs Check
+jobs:
+  check-tf-readme:
+    name: Check TF README
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +22,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Check Docs
+      - name: Run TF Docs
         id: check_docs
         uses: terraform-docs/gh-actions@v1.3.0
         with:
@@ -28,6 +30,6 @@ jobs:
           git-push: false
           fail-on-diff: true
           output-format: ""
-          output-method: ""
-          output-file: ""
+          output-method: "replace"
+          output-file: "README.md"
           template: ""

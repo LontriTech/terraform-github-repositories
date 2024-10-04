@@ -1,14 +1,18 @@
 ---
-name: Terraform Init
+name: Check TF Validate
 
 on: ['workflow_call']
 
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  terraform-init:
-    name: Terraform Init
+  check-tf-validate:
+    name: Check TF Validate
     runs-on: ubuntu-latest
 
     steps:
@@ -18,18 +22,17 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Terraform Init
-        id: terraform_init
-        shell: bash
-        run:  terraform init -backend=false -input=false -upgrade
-
-      - name: Cache Terraform Modules
+      - name: Cache TF Modules
         id: cache_modules
         uses: actions/cache@v4.0.2
         with:
           path: |
             .terraform
             .terraform.lock.hcl
-          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          key: ${{ runner.os }}-tf-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-terraform-${{ github.sha }}
+            ${{ runner.os }}-tf-${{ github.sha }}
+
+      - name: Run TF Validate
+        id: check_validate
+        run: terraform validate
