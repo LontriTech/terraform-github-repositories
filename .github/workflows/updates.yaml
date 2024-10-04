@@ -8,10 +8,13 @@ permissions:
 
 jobs:
   format:
+    name: TF Format
     uses: ./.github/workflows/update-tf-format.yaml
 
   lockfile:
+    name: TF Lockfile
     uses: ./.github/workflows/update-tf-lockfile.yaml
 
   readme:
+    name: TF README
     uses: ./.github/workflows/update-tf-readme.yaml

@@ -8,17 +8,22 @@ permissions:
 
 jobs:
   checkov:
+    name: Checkov Status
     uses: ./.github/workflows/check-checkov.yaml
 
   format:
+    name: TF Format
     uses: ./.github/workflows/check-tf-format.yaml
 
   lockfile:
+    name: TF Lockfile
     uses: ./.github/workflows/check-tf-lockfile.yaml
 
   readme:
+    name: TF README
     uses: ./.github/workflows/check-tf-readme.yaml
 
   validate:
+    name: TF Validate
     uses: ./.github/workflows/check-tf-validate.yaml
 
