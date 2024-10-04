@@ -3,8 +3,7 @@
 
 This is a Terraform module for deploying GitHub repositories.
 
-[![Terraform Docs](https://github.com/lontritech/terraform-github-repositories/actions/workflows/terraform-docs.yml/badge.svg)](https://github.com/lontritech/terraform-github-repositories/actions/workflows/terraform-docs.yml)
-[![Checkov](https://github.com/lontritech/terraform-github-repositories/actions/workflows/checkov.yml/badge.svg)](https://github.com/lontritech/terraform-github-repositories/actions/workflows/checkov.yml)
+[![Updates and Checks](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/main.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/main.yaml)
 
 ## Requirements
 
