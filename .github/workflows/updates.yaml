@@ -1,0 +1,17 @@
+---
+name: Run Updates
+
+on: ['workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    uses: ./.github/workflows/update-tf-format.yaml
+
+  lockfile:
+    uses: ./.github/workflows/update-tf-lockfile.yaml
+
+  readme:
+    uses: ./.github/workflows/update-tf-readme.yaml

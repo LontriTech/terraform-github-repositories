@@ -1,14 +1,18 @@
 ---
-name: Terraform Format Check
+name: Check TF Format
 
 on: ['workflow_call']
 
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  terraform-format-check:
-    name: Terraform Format
+  check-tf-format:
+    name: Check TF Format
     runs-on: ubuntu-latest
 
     steps:
@@ -18,6 +22,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Check Terraform Formatting
-        id: check_format
+      - name: Check TF Formatting
+        id: tf_fmt
         run: terraform fmt -recursive -diff -check -write=false

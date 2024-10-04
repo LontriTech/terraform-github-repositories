@@ -1,0 +1,21 @@
+---
+name: Updates and Checks
+
+on: ['push', 'workflow_call']
+
+permissions:
+  contents: write
+
+jobs:
+  setup:
+    uses: ./.github/workflows/tf-init.yaml
+
+  updates:
+    if: ${{ always() && github.ref_name != github.event.repository.default_branch }}
+    uses: ./.github/workflows/updates.yaml
+    needs: ['setup']
+
+  checks:
+    if: ${{ Always() }}
+    uses: ./.github/workflows/updates.yaml
+    needs: ['setup', 'updates']
