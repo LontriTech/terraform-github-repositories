@@ -54,8 +54,8 @@ jobs:
       - name: Commit and push changes
         id: git_commit_and_push
         run: |
-          git add -A
-          git commit -m "[AUTO] Update TF README"
-          git push
+          git add -A || true
+          git commit -m "[AUTO] Update TF README" || true
+          git push || true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
