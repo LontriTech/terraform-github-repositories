@@ -15,16 +15,18 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            gh api repos/${{ github.repository }}/dispatches \
-              -X POST \
-              -F event_type='setup' \
-              -F client_payload='{ \
-                "details": { \
-                  "id": "${{ github.sha }}", \
-                  "status": "success", \
-                  "timestamp": "${{ github.event.timestamp }}" \
-                } \
-              }'
+            github.rest.repos.createDispatchEvent({
+              owner: context.repo.owner,
+              repo: context.repo.repo",
+              event_type: "setup",
+              client_payload: {
+                "details": {
+                  "id": "${{ github.sha }}",
+                  "status": "success",
+                  "timestamp": "${{ github.event.timestamp }}"
+                }
+              }
+            });
 
   updates:
     name: Updates
