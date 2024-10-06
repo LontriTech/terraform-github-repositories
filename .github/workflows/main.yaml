@@ -18,7 +18,7 @@ jobs:
               event_type: "setup",
               client_payload: {
                 details: {
-                  id: ${{ github.sha }},
+                  id: "${{ github.sha }}",
                   status: "success",
                   timestamp: new Date().toISOString(),
                 }
