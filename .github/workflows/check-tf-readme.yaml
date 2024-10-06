@@ -1,7 +1,10 @@
 ---
 name: Check TF README
 
-on: ['workflow_call']
+on:
+  workflow_call:
+  repository_dispatch:
+    types: ['checks']
 
 permissions:
   contents: write

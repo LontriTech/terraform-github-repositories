@@ -6,10 +6,15 @@ on: ['push', 'workflow_call']
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   setup:
     name: Setup
     runs-on: ubuntu-latest
+
     steps:
       - name: Setup
         uses: actions/github-script@v7
@@ -29,13 +34,51 @@ jobs:
             });
 
   updates:
+    if: ${{ github.ref_name != github.event.repository.default_branch }}
+
     name: Updates
-    if: ${{ always() && github.ref_name != github.event.repository.default_branch }}
-    uses: ./.github/workflows/updates.yaml
     needs: ['setup']
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Updates
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDispatchEvent({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              event_type: "updates",
+              client_payload: {
+                details: {
+                  id: "${{ github.sha }}",
+                  status: "success",
+                  timestamp: "${{ github.event.timestamp }}"
+                }
+              }
+            });
 
   checks:
     name: Checks
-    if: ${{ Always() }}
-    uses: ./.github/workflows/checks.yaml
     needs: ['setup', 'updates']
+    runs-on: ubuntu-latest
+
+    if: ${{ Always() }}
+
+    steps:
+      - name: Updates
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDispatchEvent({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              event_type: "checks",
+              client_payload: {
+                details: {
+                  id: "${{ github.sha }}",
+                  status: "success",
+                  timestamp: "${{ github.event.timestamp }}"
+                }
+              }
+            });
