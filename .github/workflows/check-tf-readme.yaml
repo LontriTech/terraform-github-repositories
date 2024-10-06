@@ -24,6 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          ref: ${{ github.event.client_payload.sha }}
 
       - name: Run TF Docs
         id: check_docs
