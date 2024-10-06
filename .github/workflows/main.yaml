@@ -17,13 +17,13 @@ jobs:
           script: |
             github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
-              repo: context.repo.repo",
+              repo: context.repo.repo,
               event_type: "setup",
               client_payload: {
-                "details": {
-                  "id": "${{ github.sha }}",
-                  "status": "success",
-                  "timestamp": "${{ github.event.timestamp }}"
+                details: {
+                  id: "${{ github.sha }}",
+                  status: "success",
+                  timestamp: "${{ github.event.timestamp }}"
                 }
               }
             });
