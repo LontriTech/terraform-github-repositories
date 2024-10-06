@@ -20,6 +20,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const timestamp = new Date().toISOString();
+            
             github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -34,17 +36,19 @@ jobs:
             });
 
   updates:
-    if: ${{ github.ref_name != github.event.repository.default_branch }}
-
     name: Updates
     needs: ['setup']
     runs-on: ubuntu-latest
+
+    if: ${{ github.ref_name != github.event.repository.default_branch }}
 
     steps:
       - name: Updates
         uses: actions/github-script@v7
         with:
           script: |
+            const timestamp = new Date().toISOString();
+            
             github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -70,6 +74,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const timestamp = new Date().toISOString();
+            
             github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
               repo: context.repo.repo,
