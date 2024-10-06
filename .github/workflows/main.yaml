@@ -20,7 +20,7 @@ jobs:
               -F event_type='setup' \
               -F client_payload='{ \
                 "details": { \
-                  "id": ${{ github.sha }}, \
+                  "id": "${{ github.sha }}", \
                   "status": "success", \
                   "timestamp": "${{ github.event.timestamp }}" \
                 } \
