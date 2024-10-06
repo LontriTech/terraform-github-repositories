@@ -8,8 +8,25 @@ permissions:
 
 jobs:
   setup:
-    name: Setup
-    uses: ./.github/workflows/tf-init.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const payload = {
+              event_type: "setup",
+              client_payload: {
+                details: {
+                  id: ${{ github.sha }},
+                  status: "success",
+                  timestamp: new Date().toISOString(),
+                }
+              }
+            };
+            
+            const response = await $exec(`gh api repos/${{ github.repository }}/dispatches -X POST -F event_type='${payload.event_type}' -F client_payload='${JSON.stringify(payload.client_payload)}'`);
+            console.log("Response:", response);
 
   updates:
     name: Updates
