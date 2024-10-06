@@ -37,8 +37,6 @@ jobs:
                 details: {
                   id: "${{ github.sha }}",
                   status: "success",
-                  timestamp: timestamp
-                  sha: "${{ github.sha }}"
                 }
               }
             });
@@ -65,8 +63,6 @@ jobs:
                 details: {
                   id: "${{ github.sha }}",
                   status: "success",
-                  timestamp: timestamp
-                  sha: "${{ github.sha }}"
                 }
               }
             });

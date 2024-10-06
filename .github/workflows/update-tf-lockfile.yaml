@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          ref: ${{ github.event.client_payload.sha }}
+          ref: ${{ github.event.client_payload.id }}
 
       - name: TF Init
         id: tf_init_upgrade_true
@@ -37,9 +37,9 @@ jobs:
           path: |
             .terraform
             .terraform.lock.hcl
-          key: ${{ runner.os }}-tf-${{ github.sha }}
+          key: ${{ runner.os }}-tf-${{ github.event.client_payload.id }}
           restore-keys: |
-            ${{ runner.os }}-tf-${{ github.sha }}
+            ${{ runner.os }}-tf-${{ github.event.client_payload.id }}
 
       - name: Set up Git config
         id: git_config
