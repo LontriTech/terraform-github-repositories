@@ -1,7 +1,10 @@
 ---
 name: TF Init
 
-on: ['workflow_call']
+on: 
+  workflow_call:
+  repository_dispatch:
+    types: ['setup'] 
 
 permissions:
   contents: write
