@@ -28,7 +28,7 @@ jobs:
                 details: {
                   id: "${{ github.sha }}",
                   status: "success",
-                  timestamp: "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+                  timestamp: timestamp
                 }
               }
             });
@@ -53,7 +53,7 @@ jobs:
                 details: {
                   id: "${{ github.sha }}",
                   status: "success",
-                  timestamp: "${{ github.event.timestamp }}"
+                  timestamp: timestamp
                 }
               }
             });
@@ -78,7 +78,7 @@ jobs:
                 details: {
                   id: "${{ github.sha }}",
                   status: "success",
-                  timestamp: "${{ github.event.timestamp }}"
+                  timestamp: timestamp
                 }
               }
             });
