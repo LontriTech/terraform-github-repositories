@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          ref: ${{ github.event.client_payload.sha }}
+          ref: ${{ github.event.client_payload.id }}
 
       - name: Hash Original Lockfile
         id: hash_original_lockfile
@@ -43,9 +43,9 @@ jobs:
           path: |
             .terraform
             .terraform.lock.hcl
-          key: ${{ runner.os }}-terraform-${{ github.sha }}
+          key: ${{ runner.os }}-tf-${{ github.event.client_payload.id }}
           restore-keys: |
-            ${{ runner.os }}-terraform-${{ github.sha }}
+            ${{ runner.os }}-tf-${{ github.event.client_payload.id }}
 
       - name: Check if Lockfile Changed
         id: check_lockfile
