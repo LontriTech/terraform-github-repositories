@@ -3,7 +3,11 @@
 
 This is a Terraform module for deploying GitHub repositories.
 
-[![Updates and Checks](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/main.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/main.yaml)
+[![TF Format](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-format.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-format.yaml)
+[![TF Lockfile](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-lockfile.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-lockfile.yaml)
+[![TF README](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-readme.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-readme.yaml)
+[![TF Validate](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-validate.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-tf-validate.yaml)
+[![Checkov](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-checkov.yaml/badge.svg)](https://github.com/LontriTech/terraform-github-repositories/actions/workflows/check-checkov.yaml)
 
 ## Requirements
 
