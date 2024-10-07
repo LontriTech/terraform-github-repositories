@@ -1,6 +1,8 @@
 ---
 name: Update TF Lockfile
 
+run-name: "#${{ github.event.client_payload.id }}: ${{ github.event.client_payload.ref }}"
+
 on:
   workflow_call:
   repository_dispatch:
