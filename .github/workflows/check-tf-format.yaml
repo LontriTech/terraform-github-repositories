@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          ref: ${{ github.event.client_payload.id }}
+          ref: ${{ github.event.client_payload.ref }}
 
       - name: Check TF Formatting
         id: tf_fmt
