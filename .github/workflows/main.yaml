@@ -30,9 +30,11 @@ jobs:
             github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              event_type: "updates",
+              event_type: context.job,
               client_payload: {
-                id: "${{ github.sha }}",
+                id: context.runId
+                sha: context.sha,
+                ref: context.ref
               }
             });
 
@@ -51,8 +53,10 @@ jobs:
             github.rest.repos.createDispatchEvent({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              event_type: "checks",
+              event_type: context.job,
               client_payload: {
-                id: "${{ github.sha }}"
+                id: context.runId
+                sha: context.sha,
+                ref: context.ref
               }
             });
