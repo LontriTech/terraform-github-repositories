@@ -16,11 +16,11 @@ jobs:
     uses: ./.github/workflows/tf-init.yaml
 
   updates:
+    if: ${{ github.ref_name != github.event.repository.default_branch }}
+  
     name: Updates
     needs: ['setup']
     runs-on: ubuntu-latest
-
-    if: ${{ github.ref_name != github.event.repository.default_branch }}
 
     steps:
       - name: Trigger Updates
@@ -37,11 +37,11 @@ jobs:
             });
 
   checks:
+    if: ${{ Always() }}
+    
     name: Checks
     needs: ['setup', 'updates']
     runs-on: ubuntu-latest
-
-    if: ${{ Always() }}
 
     steps:
       - name: Trigger Checks
