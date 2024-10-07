@@ -36,6 +36,6 @@ jobs:
           path: |
             .terraform
             .terraform.lock.hcl
-          key: ${{ runner.os }}-tf-${{ github.sha }}
+          key: ${{ runner.os }}-tf-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-tf-${{ github.sha }}
+            ${{ runner.os }}-tf-${{ github.run_id }}
