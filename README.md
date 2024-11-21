@@ -20,7 +20,7 @@ This is a Terraform module for deploying GitHub repositories.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | 6.3.0 |
+| <a name="provider_github"></a> [github](#provider\_github) | 6.3.1 |
 
 ## Resources
 
